@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+</head>
+<body>
+    <h1>Data from MongoDB</h1>
+    <ul>
+        {% for item in data %}
+            <li>{{ item.get('title') }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
