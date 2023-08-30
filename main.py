@@ -8,7 +8,7 @@ collections = db['test_1']
 app = Flask(__name__)
 
 
-@app.route('/')
+@app.route('/home')
 def main():
     data = list(collections.find({}))
     return render_template('home.html',data=data)
