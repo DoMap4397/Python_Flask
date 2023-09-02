@@ -5,6 +5,17 @@ client = MongoClient('mongodb://localhost:27017/')
 db = client['test_db']
 collections = db['test_1']
 
+mylist = [
+    {
+        'id': 'test 3',
+        'title': 'Test title 2',
+        'url': 'https://www.test2.com',
+        'description': 'test description 2'
+    }
+]
+
+x = collections.insert_many(mylist)
+
 app = Flask(__name__)
 
 
@@ -16,7 +27,13 @@ def main():
 
 @app.route('/create')
 def create():
-    return render_template('create.html')
+    data = list(collections.find({}))
+    return render_template('create.html', data=data)
+
+
+@app.route('/edit')
+def edit():
+    return render_template('edit.html')
 
 
 @app.route('/test_db')

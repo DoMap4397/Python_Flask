@@ -23,53 +23,79 @@
 
         <!-- Main content -->
         <section class="content">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col-12">
-                        <div class="card">
-                            <div class="card-header">
-                                <h3 class="card-title">DataTable with default features</h3>
-                            </div>
-                            <div class="card-footer">
-                                <button type="submit" class="btn btn-primary">
-                                    <a href="create" style="color: black">
-                                        Create
-                                    </a>
-                                </button>
-                            </div>
-
-                            <!-- /.card-header -->
-                            <div class="card-body">
-                                <table id="example1" class="table table-bordered table-striped">
-                                    <thead>
-                                    <tr>
-                                        <th>Title</th>
-                                        <th>Url</th>
-                                        <th>Description</th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for item in data %}
-                                        <tr>
-                                            <td>{{ item.get('title') }}</td>
-                                            <td>{{ item.get('url') }}</td>
-                                            <td>{{ item.get('description') }}</td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                    <tfoot>
-                                    </tfoot>
-                                </table>
-                            </div>
-                            <!-- /.card-body -->
-                        </div>
-                        <!-- /.card -->
+            <!-- Default box -->
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Projects</h3>
+                    <div class="card-tools">
+                        <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                            <i class="fas fa-minus"></i>
+                        </button>
+                        <button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
+                            <i class="fas fa-times"></i>
+                        </button>
                     </div>
-                    <!-- /.col -->
                 </div>
-                <!-- /.row -->
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary">
+                        <a href="create" style="color: black">
+                            Create
+                        </a>
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <table class="table table-bordered table-striped">
+                        <thead>
+                        <tr>
+                            <th style="width: 1%">
+                                #
+                            </th>
+                            <th style="width: 10%">
+                                ID
+                            </th>
+                            <th style="width: 20%">
+                                Title
+                            </th>
+                            <th>
+                                Url
+                            </th>
+                            <th>
+                                Description
+                            </th>
+                            <th style="width: 15%">
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        {% for item in data %}
+                            <tr>
+                                <td>
+                                    STT
+                                </td>
+                                <td>{{ item.get('id') }}</td>
+                                <td>{{ item.get('title') }}</td>
+                                <td>{{ item.get('url') }}</td>
+                                <td>{{ item.get('description') }}</td>
+                                <td>
+                                    <a class="btn btn-info btn-sm" href="edit">
+                                        <i class="fas fa-pencil-alt">
+                                        </i>
+                                        Edit
+                                    </a>
+                                    <a class="btn btn-danger btn-sm" href="#">
+                                        <i class="fas fa-trash">
+                                        </i>
+                                        Delete
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <!-- /.card-body -->
             </div>
-            <!-- /.container-fluid -->
+            <!-- /.card -->
         </section>
         <!-- /.content -->
     </div>
