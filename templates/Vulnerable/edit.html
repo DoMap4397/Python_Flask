@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% block title %}Vulnerable | Edit{% endblock %}}
+
+{% block content %}
+    <div class="content-wrapper">
+        <!-- Content Header (Page header) -->
+        <section class="content-header">
+            <div class="container-fluid">
+                <div class="row mb-2">
+                    <div class="col-sm-6">
+                        <h1>Edit</h1>
+                    </div>
+                    <div class="col-sm-6">
+                        <ol class="breadcrumb float-sm-right">
+                            <li class="breadcrumb-item"><a href="/Vulnerable">Vulnerable</a></li>
+                            <li class="breadcrumb-item active">Edit</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+            <!-- /.container-fluid -->
+        </section>
+        <!-- Main content -->
+        <section class="content">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-12">
+                        <div class="invoice p-3 mb-3">
+                            <div>
+                                <div class="form-group">
+                                    <label for="inputTitle">Title</label>
+                                    <input type="text" id="inputTitle" name="title" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputUrl">Url</label>
+                                    <input type="text" id="inputUrl" name="url" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label for="inputDescription">Description</label>
+                                    <textarea id="inputDescription" name="description" class="form-control"
+                                              rows="4"></textarea>
+                                </div>
+                            </div>
+                            <div class="row no-print">
+                                <div class="col-12">
+                                    <button type="button" class="btn btn-primary float-right" onclick="SaveToVulnDb()">
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+{% endblock %}
+{% block js %}
+    <script>
+        function SaveToVulnDb() {
+            let data = {
+                'title': $("#inputTitle").val(),
+                'url': $("#inputUrl").val(),
+                'description': $("#inputDescription").val()
+            };
+
+            $.ajax({
+                url: "/Vulnerable/Edit",
+                type: "POST",
+                data: data,
+                dataType: "json",
+                success: function (res) {
+                    if (res.ok) {
+                        toastr.success(res.mesg);
+                        setTimeout(function () {
+                            location.href = "/Vulnerable";
+                        }, 3000);
+                    } else {
+                        toastr.error(res.mesg);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+    </script>
+{% endblock %}
