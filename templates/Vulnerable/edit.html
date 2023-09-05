@@ -29,16 +29,18 @@
                             <div>
                                 <div class="form-group">
                                     <label for="inputTitle">Title</label>
-                                    <input type="text" id="inputTitle" name="title" class="form-control">
+                                    <input type="text" id="inputTitle" name="title" class="form-control"
+                                           value="{{ data.get('title') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputUrl">Url</label>
-                                    <input type="text" id="inputUrl" name="url" class="form-control">
+                                    <input type="text" id="inputUrl" name="url" class="form-control"
+                                           value="{{ data.get('url') }}">
                                 </div>
                                 <div class="form-group">
                                     <label for="inputDescription">Description</label>
                                     <textarea id="inputDescription" name="description" class="form-control"
-                                              rows="4"></textarea>
+                                              rows="4">{{ data.get('description') }}</textarea>
                                 </div>
                             </div>
                             <div class="row no-print">
@@ -66,8 +68,8 @@
             };
 
             $.ajax({
-                url: "/Vulnerable/Edit",
-                type: "POST",
+                url: "/Vulnerable/Edit/<vul_id>",
+                type: "PUT",
                 data: data,
                 dataType: "json",
                 success: function (res) {

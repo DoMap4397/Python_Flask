@@ -77,13 +77,14 @@
                                             <td>{{ item.get('url') }}</td>
                                             <td>{{ item.get('description') }}</td>
                                             <td>
-                                                <a class="btn btn-info btn-sm" href="/Vulnerable/Edit">
+                                                <a class="btn btn-info btn-sm" href="/Vulnerable/Edit/{{ item.get('vuln_id') }}"
+                                                   onclick="edit_vuln('{{ item.id }}')">
                                                     <i class="fas fa-pencil-alt">
                                                     </i>
                                                     Edit
                                                 </a>
                                                 <a class="btn btn-danger btn-sm" href="#"
-                                                   onclick="delete_vuln('{{ item.id }}');">
+                                                   onclick="delete_vuln('{{ item.id }}')">
                                                     <i class="fas fa-trash">
                                                     </i>
                                                     Delete
@@ -160,6 +161,30 @@
                         toastr.success(res.mesg);
                         setTimeout(function () {
                             location.href = "/Vulnerable";
+                        }, 0);
+                    } else {
+                        toastr.error(res.mesg);
+                    }
+                },
+                error: function (err) {
+                    console.log(err);
+                }
+            });
+        }
+
+        function edit_vuln(vuln_id) {
+            let sure = confirm('Are you sure?');
+            if (!sure)
+                return;
+
+            $.ajax({
+                url: `/Vulnerable/Edit/${vuln_id}`,
+                type: "POST",
+                success: function (res) {
+                    if (res.ok) {
+                        toastr.success(res.mesg);
+                        setTimeout(function () {
+                            location.href = `/Vulnerable/Edit/${vuln_id}`;
                         }, 0);
                     } else {
                         toastr.error(res.mesg);

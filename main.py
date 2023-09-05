@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, jsonify
+from flask import Flask, render_template, request, redirect, jsonify, sessions
 from pymongo import MongoClient
 import uuid
 import time
@@ -33,6 +33,12 @@ def Vulnerable_create():
         }
         title = request.form['title']
         url = request.form['url']
+        # if url:
+        #     found_url = url.query.filter_by().first()
+        #     if found_url:
+        #         url = found_url
+        #     else:
+        #         url = request.form['url']
         description = request.form['description']
         try:
             obj = {
@@ -56,10 +62,13 @@ def Vulnerable_create():
         return jsonify(response)
 
 
-@app.route('/Vulnerable/Edit', methods=['POST', 'GET'])
-def Vulnerable_edit():
+@app.route('/Vulnerable/Edit/<vul_id>', methods=['PUT', 'GET'])
+def Vulnerable_edit(vul_id):
     if request.method == 'GET':
-        return render_template('Vulnerable/edit.html')
+        data = collections.find_one({"id": vul_id})
+        if not data:
+            return "check"
+        return render_template('Vulnerable/edit.html', data=data)
     else:
         response = {
             "ok": False,
@@ -70,17 +79,19 @@ def Vulnerable_edit():
         url = request.form['url']
         description = request.form['description']
         try:
-            obj = {
-                'id': f'vul-{uuid.uuid4()}-{int(time.time())}',
-                'title': title,
-                'url': url,
-                'description': description
-            }
-            collections.insert_one(obj)
+            data = collections.find_one({'id': vul_id})
+            collections.update_one(
+                {'id': vul_id},
+                {"$set": {
+                    "title": request.form.get('title'),
+                    "url": request.form.get('url'),
+                    "description": request.form.get('description')
+                }
+                })
             response = {
                 "ok": True,
-                "mesg": "Create successfully",
-                "data": []
+                "mesg": "Edit successfully",
+                "data": [data]
             }
         except Exception as err:
             response = {
