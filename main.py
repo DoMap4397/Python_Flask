@@ -1,4 +1,5 @@
-from flask import Flask, render_template, request, redirect, jsonify, sessions
+from bson import ObjectId
+from flask import Flask, render_template, request, redirect, jsonify
 from pymongo import MongoClient
 import uuid
 import time
@@ -62,10 +63,10 @@ def Vulnerable_create():
         return jsonify(response)
 
 
-@app.route('/Vulnerable/Edit/<vul_id>', methods=['PUT', 'GET'])
+@app.route('/Vulnerable/Edit/<vul_id>', methods=['POST', 'GET'])
 def Vulnerable_edit(vul_id):
     if request.method == 'GET':
-        data = collections.find_one({"id": vul_id})
+        data = collections.find_one({'id': vul_id})
         if not data:
             return "check"
         return render_template('Vulnerable/edit.html', data=data)
@@ -75,13 +76,9 @@ def Vulnerable_edit(vul_id):
             "mesg": "Nothing",
             "data": []
         }
-        title = request.form['title']
-        url = request.form['url']
-        description = request.form['description']
         try:
-            data = collections.find_one({'id': vul_id})
             collections.update_one(
-                {'id': vul_id},
+                {'id': ObjectId(vul_id)},
                 {"$set": {
                     "title": request.form.get('title'),
                     "url": request.form.get('url'),
@@ -91,7 +88,7 @@ def Vulnerable_edit(vul_id):
             response = {
                 "ok": True,
                 "mesg": "Edit successfully",
-                "data": [data]
+                "data": []
             }
         except Exception as err:
             response = {

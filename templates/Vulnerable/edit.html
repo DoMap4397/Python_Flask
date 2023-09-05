@@ -51,7 +51,6 @@
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -69,7 +68,7 @@
 
             $.ajax({
                 url: "/Vulnerable/Edit/<vul_id>",
-                type: "PUT",
+                type: "POST",
                 data: data,
                 dataType: "json",
                 success: function (res) {
