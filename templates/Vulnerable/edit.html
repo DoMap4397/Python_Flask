@@ -65,9 +65,10 @@
                 'url': $("#inputUrl").val(),
                 'description': $("#inputDescription").val()
             };
-
+            let url = window.location.pathname
+            let vul_id = url.split('/').pop()
             $.ajax({
-                url: "/Vulnerable/Edit/<vul_id>",
+                url: "/Vulnerable/Edit/" + vul_id,
                 type: "POST",
                 data: data,
                 dataType: "json",

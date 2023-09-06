@@ -70,19 +70,22 @@ def Vulnerable_edit(vul_id):
         if not data:
             return "check"
         return render_template('Vulnerable/edit.html', data=data)
-    else:
+    if request.method == 'POST':
         response = {
             "ok": False,
             "mesg": "Nothing",
             "data": []
         }
         try:
+            title = request.form.get('title')
+            url = request.form.get('url')
+            description = request.form.get('description')
             collections.update_one(
-                {'id': ObjectId(vul_id)},
+                {'id': vul_id},
                 {"$set": {
-                    "title": request.form.get('title'),
-                    "url": request.form.get('url'),
-                    "description": request.form.get('description')
+                    "title": title,
+                    "url": url,
+                    "description": description
                 }
                 })
             response = {
