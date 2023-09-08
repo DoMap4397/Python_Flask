@@ -114,39 +114,39 @@ def Vulnerable_delete(vul_id):
     return jsonify(response)
 
 
-@app.route('/home')
-def main():
-    data = list(collections.find({}))
-    return render_template('home.html', data=data)
-
-
-@app.route('/create')
-def create():
-    return render_template('create.html')
-
-
-@app.route('/add', methods=['POST'])
-def add_data():
-    if request.method == 'POST':
-        title = request.form['title']
-        url = request.form['url']
-        description = request.form['description']
-        try:
-            obj = {
-                'title': title,
-                'url': url,
-                'description': description
-            }
-            collections.insert_one(obj)
-
-        except Exception as err:
-            print(err)
-        return redirect('/home')
-
-
-@app.route('/edit')
-def edit():
-    return render_template('edit.html')
+# @app.route('/home')
+# def main():
+#     data = list(collections.find({}))
+#     return render_template('home.html', data=data)
+#
+#
+# @app.route('/create')
+# def create():
+#     return render_template('create.html')
+#
+#
+# @app.route('/add', methods=['POST'])
+# def add_data():
+#     if request.method == 'POST':
+#         title = request.form['title']
+#         url = request.form['url']
+#         description = request.form['description']
+#         try:
+#             obj = {
+#                 'title': title,
+#                 'url': url,
+#                 'description': description
+#             }
+#             collections.insert_one(obj)
+#
+#         except Exception as err:
+#             print(err)
+#         return redirect('/home')
+#
+#
+# @app.route('/edit')
+# def edit():
+#     return render_template('edit.html')
 
 
 @app.route('/test_db')
