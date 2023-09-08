@@ -1,4 +1,3 @@
-from bson import ObjectId
 from flask import Flask, render_template, request, redirect, jsonify
 from pymongo import MongoClient
 import uuid
@@ -34,32 +33,34 @@ def Vulnerable_create():
         }
         title = request.form['title']
         url = request.form['url']
-        # if url:
-        #     found_url = url.query.filter_by().first()
-        #     if found_url:
-        #         url = found_url
-        #     else:
-        #         url = request.form['url']
         description = request.form['description']
-        try:
-            obj = {
-                'id': f'vul-{uuid.uuid4()}-{int(time.time())}',
-                'title': title,
-                'url': url,
-                'description': description
-            }
-            collections.insert_one(obj)
+        urls = list(collections.find({'url': request.form['url']}))
+        if len(urls) > 0:
             response = {
-                "ok": True,
-                "mesg": "Create successfully",
-                "data": []
-            }
-        except Exception as err:
-            response = {
-                "ok": False,
-                "mesg": "Something wrong",
-                "data": []
-            }
+                    "ok": False,
+                    "mesg": "Url already exists!",
+                    "data": []
+                }
+        else:
+            try:
+                obj = {
+                    'id': f'vul-{uuid.uuid4()}-{int(time.time())}',
+                    'title': title,
+                    'url': url,
+                    'description': description
+                }
+                collections.insert_one(obj)
+                response = {
+                    "ok": True,
+                    "mesg": "Create successfully",
+                    "data": []
+                }
+            except Exception as err:
+                response = {
+                    "ok": False,
+                    "mesg": "Something wrong",
+                    "data": []
+                }
         return jsonify(response)
 
 
