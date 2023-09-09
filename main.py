@@ -1,11 +1,7 @@
 from flask import Flask, render_template, request, redirect, jsonify
-from pymongo import MongoClient
+from Database.connect_db import collections
 import uuid
 import time
-
-client = MongoClient('mongodb://localhost:27017/')
-db = client['pentest_db']
-collections = db['vulnerable']
 
 app = Flask(__name__)
 
@@ -35,6 +31,7 @@ def Vulnerable_create():
         url = request.form['url']
         description = request.form['description']
         urls = list(collections.find({'url': request.form['url']}))
+        url = url.split('?')[0].split('#')[0]
         if len(urls) > 0:
             response = {
                     "ok": False,
