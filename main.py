@@ -1,5 +1,5 @@
 from flask import Flask, render_template, request, redirect, jsonify
-from Database.connect_db import collections
+from databases.connect_db import collections
 import uuid
 import time
 
