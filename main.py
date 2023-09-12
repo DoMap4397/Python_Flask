@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request, redirect, jsonify
+from flask_paginate import Pagination, get_page_args
 from databases.connect_db import collections
 import uuid
 import time
@@ -11,10 +12,26 @@ def index():
     return redirect('/Vulnerable')
 
 
+users = list(range(200))
+
+
+def get_users(offset=0, per_page=10):
+    return users[offset: offset + per_page]
+
+
 @app.route('/Vulnerable')
 def Vulnerable_index():
     data = list(collections.find({}))
-    return render_template('Vulnerable/index.html', data=data)
+    page, per_page, offset = get_page_args(page_paramrter='page', per_page_paramter='per_page')
+
+    total = len(users)
+
+    pagination_users = get_users(offset=offset, per_page=per_page)
+
+    pagination = Pagination(page=page, per_page=per_page, total=total, css_framework='bootstrap4')
+    return render_template('Vulnerable/index.html', data=data,
+                           users=pagination_users, page=page,
+                           per_page=per_page, pagination=pagination)
 
 
 @app.route('/Vulnerable/Create', methods=["POST", "GET"])
@@ -34,10 +51,10 @@ def Vulnerable_create():
         url = url.split('?')[0].split('#')[0]
         if len(urls) > 0:
             response = {
-                    "ok": False,
-                    "mesg": "Url already exists!",
-                    "data": []
-                }
+                "ok": False,
+                "mesg": "Url already exists!",
+                "data": []
+            }
         else:
             try:
                 obj = {
